@@ -1,0 +1,12 @@
+
+.DS_Store
+.vs/service/xs/project-cache/service-Debug.json
+service/obj/Debug/netcoreapp3.1/service.assets.cache
+service/obj/Debug/netcoreapp3.1/service.csproj.AssemblyReference.cache
+service/obj/project.assets.json
+service/obj/project.nuget.cache
+service/obj/service.csproj.nuget.dgspec.json
+service/obj/service.csproj.nuget.g.props
+.vs/service/xs/UserPrefs.xml
+emailFunction/.vs/emailFunction/xs/project-cache/emailFunction-Debug.json
+emailFunction/.vs/emailFunction/xs/UserPrefs.xml
