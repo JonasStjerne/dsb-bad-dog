@@ -19,19 +19,10 @@ namespace emailFunction
         {
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
+            var data = JsonConvert.DeserializeObject<Reciept>(requestBody);
+            data.price = data.price / 100;
+            log.LogInformation(data.price.ToString());
 
-            try
-            {
-                var Reciept = extractEmailContent(data["Text-part"]);
-            } catch(InvalidCastException e)
-            {
-                //If the cast throws exeption log it(a new email layout is properly used)
-                log.LogError(e.ToString());
-                //return 400
-                return new BadRequestResult();
-            }
-           
 
             //Insert Reciept into db
 
@@ -39,17 +30,16 @@ namespace emailFunction
             return new OkResult();
         }
 
-        public static IReciept extractEmailContent(dynamic content)
-        {
-            var orderIdIdentifier = "Dit ordrenummer er:";
-            var stationIdentifier = "Til rejsen:";
-            var priceIdentifyer = "Pris i alt:";
-            var departureTimeIdentifer = "Afgang";
-            var arrivalTimeIdentifer = "Ankomst";
-
-            return (IReciept)content;
-        }
     }
 
-    
+    public class Reciept
+    {
+        public string depStation { get; set; }
+        public string arrStation { get; set; }
+        public string date { get; set; }
+        public string depTime { get; set; }
+        public string arrTime { get; set; }
+        public int price { get; set; }
+        public string orderId { get; set; }
+    }
 }
