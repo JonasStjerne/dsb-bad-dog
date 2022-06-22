@@ -1,4 +1,4 @@
-# dsb_bad_dog
+# dsb-bad-dog
 Service that automatically requests compensation tickets from DSB's "Travel Time Guarantee" when your train gets delayed
  
 DSB's trains are sometimes(read way too often) delayed. Conveniently they have a "Travel Time Guarantee" that oblige if your train is more than 30 mins delayed.
