@@ -23,7 +23,7 @@ namespace emailFunction
             var str = Environment.GetEnvironmentVariable("sqldb_connection");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<Reciept>(requestBody);
+            var data = JsonConvert.DeserializeObject<Receipt>(requestBody);
             data.price = data.price / 100;
 
             using (SqlConnection conn = new SqlConnection(str))
@@ -92,14 +92,15 @@ namespace emailFunction
 
         }
 
-    public class Reciept
-    {
-        public string depStation { get; set; }
-        public string arrStation { get; set; }
-        public string date { get; set; }
-        public string depTime { get; set; }
-        public string arrTime { get; set; }
-        public int price { get; set; }
-        public string orderId { get; set; }
+        public class Receipt
+        {
+            public string depStation { get; set; }
+            public string arrStation { get; set; }
+            public string date { get; set; }
+            public TimeSpan depTime { get; set; }
+            public TimeSpan arrTime { get; set; }
+            public int price { get; set; }
+            public string orderId { get; set; }
+        }
     }
 }
