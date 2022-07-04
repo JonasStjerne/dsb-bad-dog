@@ -34,33 +34,15 @@ namespace emailFunction
 
                 using (SqlCommand cmd = new SqlCommand(commandText, conn))
                 {
-                    SqlParameter depStation = new SqlParameter("@depStation", System.Data.SqlDbType.VarChar);
-                    depStation.Value = data.depStation;
-                    cmd.Parameters.Add(depStation);
+                    
+                    cmd.Parameters.Add(createSqlParam("@depStation", System.Data.SqlDbType.VarChar, data.depStation));
+                    cmd.Parameters.Add(createSqlParam("@arrStation", System.Data.SqlDbType.VarChar, data.arrStation));
+                    cmd.Parameters.Add(createSqlParam("@date", System.Data.SqlDbType.Date, data.date));
+                    cmd.Parameters.Add(createSqlParam("@depTime", System.Data.SqlDbType.Time, data.depTime));
+                    cmd.Parameters.Add(createSqlParam("@arrTime", System.Data.SqlDbType.Time, data.arrTime));
+                    cmd.Parameters.Add(createSqlParam("@price", System.Data.SqlDbType.Int, data.price));
+                    cmd.Parameters.Add(createSqlParam("@orderId", System.Data.SqlDbType.Int, data.orderId));
 
-                    SqlParameter arrStation = new SqlParameter("@arrStation", System.Data.SqlDbType.VarChar);
-                    arrStation.Value = data.arrStation;
-                    cmd.Parameters.Add(arrStation);
-
-                    SqlParameter date = new SqlParameter("@date", System.Data.SqlDbType.Date);
-                    date.Value = data.date;
-                    cmd.Parameters.Add(date);
-
-                    SqlParameter depTime = new SqlParameter("@depTime", System.Data.SqlDbType.Time);
-                    depTime.Value = data.depTime;
-                    cmd.Parameters.Add(depTime);
-
-                    SqlParameter arrTime = new SqlParameter("@arrTime", System.Data.SqlDbType.Time);
-                    arrTime.Value = data.arrTime;
-                    cmd.Parameters.Add(arrTime);
-
-                    SqlParameter price = new SqlParameter("@price", System.Data.SqlDbType.Int);
-                    price.Value = data.price;
-                    cmd.Parameters.Add(price);
-
-                    SqlParameter orderId = new SqlParameter("@orderId", System.Data.SqlDbType.Int);
-                    orderId.Value = data.orderId;
-                    cmd.Parameters.Add(orderId);
 
 
                     try
@@ -101,6 +83,13 @@ namespace emailFunction
             public TimeSpan arrTime { get; set; }
             public int price { get; set; }
             public string orderId { get; set; }
+        }
+
+        public static SqlParameter createSqlParam(string paramBind, System.Data.SqlDbType dbParamType, dynamic data)
+        {
+            SqlParameter param = new SqlParameter(paramBind, dbParamType);
+            param.Value = data;
+            return param;
         }
     }
 }
