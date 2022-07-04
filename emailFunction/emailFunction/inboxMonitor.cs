@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Data.SqlClient;
-
+using Newtonsoft.Json.Converters;
 
 namespace emailFunction
 {
@@ -21,16 +21,27 @@ namespace emailFunction
         {
             // Get the connection string from app settings and use it to create a connection.
             var str = Environment.GetEnvironmentVariable("sqldb_connection");
-
+           
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<Receipt>(requestBody);
+            Receipt data = new Receipt();
+
+            try
+            {
+                data = JsonConvert.DeserializeObject<Receipt>(requestBody, new JsonSerializerSettings()
+                { Culture = new System.Globalization.CultureInfo("da-DK") });
+            } catch (Exception ex)
+            {
+                return new BadRequestResult();
+            }
+
             data.price = data.price / 100;
+
 
             using (SqlConnection conn = new SqlConnection(str))
             {
 
-                var commandText = "Insert into dbo.Reciept (depStation, arrStation, date, depTime, arrTime, price, orderId)" +
-                    "value (@depStation, @arrStation, @date, @depTime, @arrTime, @price, @orderId)";
+                var commandText = "Insert into dbo.Reciept (depStation, arrStation, depDate, depTime, arrTime, price, orderId)" +
+                    "values (@depStation, @arrStation, @date, @depTime, @arrTime, @price, @orderId)";
 
                 using (SqlCommand cmd = new SqlCommand(commandText, conn))
                 {
@@ -43,8 +54,6 @@ namespace emailFunction
                     cmd.Parameters.Add(createSqlParam("@price", System.Data.SqlDbType.Int, data.price));
                     cmd.Parameters.Add(createSqlParam("@orderId", System.Data.SqlDbType.Int, data.orderId));
 
-
-
                     try
                     {
                         conn.Open();
@@ -56,18 +65,9 @@ namespace emailFunction
                     catch (Exception ex)
                     {
                         log.LogError(ex.ToString());
+                        return new BadRequestResult();
                     }
                 }
-
-
-
-                //string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-                //var data = JsonConvert.DeserializeObject<Reciept>(requestBody);
-                //data.price = data.price / 100;
-                //log.LogInformation(data.price.ToString());
-
-                //Insert Reciept into db
-
 
                 return new OkResult();
             }
@@ -78,10 +78,10 @@ namespace emailFunction
         {
             public string depStation { get; set; }
             public string arrStation { get; set; }
-            public string date { get; set; }
+            public DateTime date { get; set; }
             public TimeSpan depTime { get; set; }
             public TimeSpan arrTime { get; set; }
-            public int price { get; set; }
+            public Double price { get; set; }
             public string orderId { get; set; }
         }
 
