@@ -65,7 +65,7 @@ namespace emailFunction
                     catch (Exception ex)
                     {
                         log.LogError(ex.ToString());
-                        return new BadRequestResult();
+                        return new StatusCodeResult(500);
                     }
                 }
 
