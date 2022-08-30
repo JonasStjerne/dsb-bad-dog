@@ -2,6 +2,19 @@
 
 Service that automatically notify you and provide the required data to get compensation tickets from DSB's "Travel Time Guarantee" when your train gets delayed
 
+### Still in development
+
+---
+
+#### To Do
+
+- [x] Setup Azure MySQL database
+- [x] Create Azure Webhook to save receipt info to db
+- [x] Create Azure function to check for delayed train rides using rejseplanen API
+- [ ] Send notify email to user using Mailjet when train delayed
+
+---
+
 DSB's trains are sometimes (read way too often) delayed. Conveniently they have a "Travel Time Guarantee" that oblige if your train is more than 30 mins delayed.
 That's very smart you'd think: "When my train is more than 30 mins delayed it automatically gives me a new one" - nope! That would be way to easy.
 DSB makes you fill out a way to complicated form with details such as when the train should have been arriving, the actual arrival time and proof of ticket purchase - all information they already possess themselves.
@@ -14,7 +27,7 @@ Because of limited free tiers on email services with API access I'm not able to 
 
 ## Setup for yourself
 
-The service works by having receiving info about a train ride with a webhook. [Parseur](https://parseur.com/) is a service that host an email inbox where you can extract data automatically and forward the data to a webhook. When you recieve your train reciept from netbutikken@dsb.dk you want to forward the email to your Parseur email inbox which will extract the relevant data and send it to the service.
+The service works by having receiving info about a train ride with a webhook. [Parseur](https://parseur.com/) is a service that host an email inbox where you can extract data automatically and forward the data to a webhook. When you recieve your train receipt from netbutikken@dsb.dk you want to forward the email to your Parseur email inbox which will extract the relevant data and send it to the service.
 
 If you would like to use this service please do the following:
 
