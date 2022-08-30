@@ -14,7 +14,7 @@ Because of limited free tiers on email services with API access I'm not able to 
 
 ## Setup for yourself
 
-The service works by having receiving info about a train ride with a webhook. [Parseur](https://parseur.com/) is a service that host an email inbox where you can extract data automatically and send the data to a webhook.
+The service works by having receiving info about a train ride with a webhook. [Parseur](https://parseur.com/) is a service that host an email inbox where you can extract data automatically and forward the data to a webhook. When you recieve your train reciept from netbutikken@dsb.dk you want to forward the email to your Parseur email inbox which will extract the relevant data and send it to the service.
 
 If you would like to use this service please do the following:
 
@@ -31,4 +31,5 @@ price: Number,
 orderId: Text,
 ```
 
-- Contact me and get the endpoint to connect the webhook with
+- Setup a inbox rule for your personal email to forward all emails from netbutikken@dsb.dk to your Parseur email inbox
+- Contact me and get the endpoint to connect Parseur to the service's webhook
